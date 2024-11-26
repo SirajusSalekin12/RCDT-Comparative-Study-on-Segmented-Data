@@ -9,31 +9,31 @@ def main():
     print("Running RCDT-NS...")
     start_time = time.time()
 
-    # Dataset setup
+    
     dataset = 'MNIST'
     datadir = './data'
     num_classes = 10
     n_samples_perclass = 512
 
-    # Load dataset
+    
     (x_train, y_train), (x_test, y_test) = load_data(dataset, num_classes, datadir)
 
-    # Subsample training data
+    
     x_train_sub, y_train_sub = take_train_samples(
         x_train, y_train, n_samples_perclass, num_classes, repeat=0
     )
 
-    # Initialize and train RCDT-NS
+
     theta = np.linspace(0, 176, 45)
     rcdt_ns_obj = RCDT_NS(num_classes, theta, rm_edge=True)
     rcdt_ns_obj.fit(x_train_sub, y_train_sub)
 
-    # Predict and evaluate
+    
     preds = rcdt_ns_obj.predict(x_test)
     accuracy = accuracy_score(y_test, preds)
     elapsed_time = time.time() - start_time
 
-    # Save results
+    
     results = {
         "method": "RCDT-NS",
         "accuracy": accuracy,
